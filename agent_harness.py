@@ -1,13 +1,27 @@
 import json
 import os
 import sys
+from datetime import datetime
+
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
 
 from agent_tools import TOOL_REGISTRY
 
 
+TRACE_FILE = "agent_trace.log"
+MODEL = "gemini-2.5-flash"
 CONFIDENCE_THRESHOLD = 0.7
+
+
+def write_trace(event: str, data: dict) -> None:
+    with open(TRACE_FILE, "a", encoding="utf-8") as file:
+        record = {
+            "timestamp": datetime.now().isoformat(),
+            "event": event,
+            **data,
+        }
+        file.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def call_llm(user_input: str) -> dict:
@@ -17,76 +31,92 @@ def call_llm(user_input: str) -> dict:
     if not api_key:
         raise RuntimeError("ไม่พบ GOOGLE_API_KEY ในไฟล์ .env")
 
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
 
-    model = genai.GenerativeModel("gemini-2.5-flash")
+    system_instruction = """
+คุณคือ Matey ผู้ช่วย AI ของร้าน Milk Mate
 
-    prompt = f"""
-You are Matey, an AI assistant for Milk Mate.
+หน้าที่ของคุณคือแปลงคำสั่งภาษาไทยของผู้ใช้ให้เป็น JSON action เท่านั้น
 
-Your job is to choose the correct tool for the user's request.
-
-Available tools:
+เครื่องมือที่ใช้ได้:
 1. log_sale
-   - Use when the user wants to record a sale.
-   - Required arguments:
-     - menu: string
-     - quantity: integer
-     - price: number
+ใช้เมื่อผู้ใช้ต้องการบันทึกยอดขาย
+รูปแบบ:
+{
+  "action": "log_sale",
+  "args": {
+    "menu": "ชื่อเมนู",
+    "quantity": จำนวน,
+    "price": ราคา
+  },
+  "confidence": 0.0,
+  "reason": "เหตุผลสั้น ๆ"
+}
 
 2. get_yesterday_summary
-   - Use when the user wants a sales summary or report.
-   - No arguments required.
-
-Return only valid JSON in this schema:
-{{
-  "action": "tool_name",
-  "arguments": {{}},
+ใช้เมื่อผู้ใช้ต้องการสรุปรายงานยอดขาย
+รูปแบบ:
+{
+  "action": "get_yesterday_summary",
+  "args": {},
   "confidence": 0.0,
-  "reason": "short reason"
-}}
+  "reason": "เหตุผลสั้น ๆ"
+}
 
-Rules:
-- Return JSON only. Do not include markdown.
-- If the user wants to record a sale, use action "log_sale".
-- If the user wants a report or sales summary, use action "get_yesterday_summary".
-- If the user input is unclear, use low confidence.
+ถ้าคำสั่งไม่ชัดเจน ให้ตอบ:
+{
+  "action": "unknown",
+  "args": {},
+  "confidence": 0.0,
+  "reason": "ไม่เข้าใจคำสั่ง"
+}
 
-User input:
-{user_input}
+ตอบกลับเป็น JSON เท่านั้น ห้ามใส่ markdown ห้ามอธิบายเพิ่ม
 """
 
-    response = model.generate_content(prompt)
-    text = response.text.strip()
+    response = client.models.generate_content(
+        model=MODEL,
+        contents=f"{system_instruction}\n\nคำสั่ง: {user_input}",
+    )
 
-    # กันกรณี Gemini เผลอครอบ JSON ด้วย ```json
-    text = text.replace("```json", "").replace("```", "").strip()
+    raw = response.text.strip()
+    raw = raw.replace("```json", "").replace("```", "").strip()
 
-    return json.loads(text)
+    write_trace("llm_response", {"raw": raw})
+
+    return json.loads(raw)
 
 
-def dispatch_tool(plan: dict) -> dict:
-    action = plan.get("action")
-    arguments = plan.get("arguments", {})
-    confidence = float(plan.get("confidence", 0))
+def dispatch_tool(action_data: dict) -> dict:
+    action = action_data.get("action")
+    args = action_data.get("args", {})
+    confidence = float(action_data.get("confidence", 0))
 
-    print("[trace] action:", action)
-    print("[trace] confidence:", confidence)
-    print("[trace] arguments:", arguments)
+    write_trace(
+        "parsed_action",
+        {
+            "action": action,
+            "args": args,
+            "confidence": confidence,
+            "reason": action_data.get("reason", ""),
+        },
+    )
 
     if confidence < CONFIDENCE_THRESHOLD:
-        return {
-            "ok": False,
-            "error": "confidence too low",
-            "plan": plan,
+        result = {
+            "status": "error",
+            "message": "confidence ต่ำเกินไป จึงไม่เรียกใช้ tool",
         }
+        write_trace("guardrail_reject", result)
+        return result
 
     if action not in TOOL_REGISTRY:
-        return {
-            "ok": False,
-            "error": f"unknown tool: {action}",
-            "plan": plan,
+        result = {
+            "status": "error",
+            "message": f"ไม่รู้จัก action: {action}",
         }
+        write_trace("unknown_action", result)
+        return result
 
     tool_info = TOOL_REGISTRY[action]
     fn = tool_info["fn"]
@@ -95,60 +125,72 @@ def dispatch_tool(plan: dict) -> dict:
 
     final_args = {}
 
-    for arg_name in required_args:
-        if arg_name not in arguments:
-            return {
-                "ok": False,
-                "error": f"missing argument: {arg_name}",
-                "plan": plan,
-            }
+    try:
+        for arg_name in required_args:
+            if arg_name not in args:
+                raise ValueError(f"missing argument: {arg_name}")
 
-        value = arguments[arg_name]
+            value = args[arg_name]
 
-        if arg_name in coerce:
-            value = coerce[arg_name](value)
+            if arg_name in coerce:
+                value = coerce[arg_name](value)
 
-        final_args[arg_name] = value
+            final_args[arg_name] = value
 
-    result = fn(**final_args)
+        result = fn(**final_args)
 
-    return {
-        "ok": True,
-        "action": action,
-        "result": result,
-    }
+        write_trace(
+            "tool_result",
+            {
+                "action": action,
+                "args": final_args,
+                "result": result,
+            },
+        )
+
+        return {
+            "status": "success",
+            "action": action,
+            "result": result,
+        }
+
+    except (ValueError, TypeError) as error:
+        result = {
+            "status": "error",
+            "message": str(error),
+        }
+        write_trace("tool_error", result)
+        return result
 
 
 def run_agent(user_input: str) -> dict:
-    print("[trace] user_input:", user_input)
+    write_trace("user_input", {"message": user_input})
 
-    plan = call_llm(user_input)
-
-    print("[trace] plan:", plan)
-
-    result = dispatch_tool(plan)
-
-    print("[trace] result:", result)
+    action_data = call_llm(user_input)
+    result = dispatch_tool(action_data)
 
     return result
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("วิธีใช้:")
-        print('python agent_harness.py "บันทึกยอดขายโกโก้ภูเขาไฟ 2 แก้ว แก้วละ 50"')
-        print('python agent_harness.py "สรุปรายงานยอดขายให้หน่อย"')
+    if len(sys.argv) > 1:
+        user_input = " ".join(sys.argv[1:])
+        result = run_agent(user_input)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
         return
 
-    user_input = " ".join(sys.argv[1:])
+    print("Matey Agent พร้อมรับคำสั่ง (พิมพ์ 'exit' เพื่อออก)\n")
 
-    try:
+    while True:
+        user_input = input("คุณ: ").strip()
+
+        if user_input.lower() == "exit":
+            break
+
         result = run_agent(user_input)
-        print("\n=== Matey Agent Result ===")
+        print("Matey:")
         print(json.dumps(result, ensure_ascii=False, indent=2))
-    except Exception as error:
-        print("เกิดข้อผิดพลาด:")
-        print(error)
+        print()
 
 
 if __name__ == "__main__":
