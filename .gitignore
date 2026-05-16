@@ -218,3 +218,4 @@ __marimo__/
 .streamlit/secrets.toml
 service-account.json
 .venv-1/
+agent_trace.log
