@@ -1,5 +1,6 @@
 import faiss
 import numpy as np
+from pathlib import Path
 from sentence_transformers import SentenceTransformer
 
 
@@ -14,7 +15,14 @@ class RAGEngine:
 
     def _load_and_chunk(self, path: str) -> list[str]:
         """Load และ Chunk ข้อมูลร้าน"""
-        with open(path, encoding="utf-8") as file:
+        path_obj = Path(path)
+        if not path_obj.is_absolute():
+            path_obj = (Path(__file__).resolve().parent / path_obj).resolve()
+
+        if not path_obj.exists():
+            raise FileNotFoundError(f"Knowledge base not found at {path_obj}")
+
+        with path_obj.open(encoding="utf-8") as file:
             text = file.read()
 
         return [chunk.strip() for chunk in text.split("\n\n") if chunk.strip()]

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import streamlit as st
 from dotenv import load_dotenv
@@ -11,11 +12,12 @@ load_dotenv()
 
 client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 MODEL = "gemini-2.5-flash"
+KB_PATH = Path(__file__).resolve().parent / "knowledge" / "milkmate_kb.txt"
 
 
 @st.cache_resource
 def load_rag():
-    return RAGEngine("knowledge/milkmate_kb.txt")
+    return RAGEngine(str(KB_PATH))
 
 
 rag = load_rag()
