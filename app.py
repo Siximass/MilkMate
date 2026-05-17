@@ -35,10 +35,10 @@ st.markdown(
     <style>
     .stApp {
         background:
-            radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 32%),
-            radial-gradient(circle at bottom right, rgba(156, 163, 175, 0.16), transparent 35%),
-            linear-gradient(135deg, #05070a 0%, #0b1220 45%, #111827 100%);
-        color: #f9fafb;
+            radial-gradient(circle at top left, rgba(56, 189, 248, 0.20), transparent 34%),
+            radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.10), transparent 32%),
+            linear-gradient(135deg, #07111f 0%, #0f172a 48%, #111827 100%);
+        color: #f8fafc;
     }
 
     .block-container {
@@ -49,12 +49,12 @@ st.markdown(
 
     .hero-card {
         background:
-            linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(31, 41, 55, 0.88)),
-            linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
-        border: 1px solid rgba(229, 231, 235, 0.18);
+            linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.9)),
+            linear-gradient(90deg, rgba(125, 211, 252, 0.08), transparent);
+        border: 1px solid rgba(186, 230, 253, 0.18);
         border-radius: 30px;
         padding: 34px 38px;
-        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.45);
+        box-shadow: 0 26px 76px rgba(0, 0, 0, 0.38);
         margin-bottom: 20px;
         position: relative;
         overflow: hidden;
@@ -67,14 +67,14 @@ st.markdown(
         top: -80px;
         width: 260px;
         height: 260px;
-        background: radial-gradient(circle, rgba(96, 165, 250, 0.28), transparent 65%);
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.26), transparent 65%);
         border-radius: 50%;
     }
 
     .eyebrow {
-        color: #93c5fd;
+        color: #7dd3fc;
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 800;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         margin-bottom: 10px;
@@ -91,7 +91,7 @@ st.markdown(
     .hero-subtitle {
         font-size: 17px;
         color: #d1d5db;
-        max-width: 780px;
+        max-width: 790px;
         line-height: 1.75;
         margin-bottom: 22px;
     }
@@ -103,18 +103,18 @@ st.markdown(
     }
 
     .badge {
-        background: rgba(37, 99, 235, 0.18);
-        border: 1px solid rgba(96, 165, 250, 0.32);
-        color: #dbeafe;
+        background: rgba(14, 165, 233, 0.16);
+        border: 1px solid rgba(125, 211, 252, 0.34);
+        color: #dff6ff;
         padding: 8px 14px;
         border-radius: 999px;
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 650;
     }
 
     .section-title {
         font-size: 22px;
-        font-weight: 800;
+        font-weight: 850;
         color: #ffffff;
         margin: 26px 0 14px 0;
     }
@@ -127,29 +127,29 @@ st.markdown(
     }
 
     .stat-card {
-        background: linear-gradient(145deg, rgba(31, 41, 55, 0.92), rgba(17, 24, 39, 0.86));
-        border: 1px solid rgba(229, 231, 235, 0.14);
+        background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.86));
+        border: 1px solid rgba(186, 230, 253, 0.14);
         border-radius: 22px;
         padding: 18px;
-        box-shadow: 0 14px 38px rgba(0, 0, 0, 0.26);
+        box-shadow: 0 14px 38px rgba(0, 0, 0, 0.25);
     }
 
     .stat-label {
         font-size: 13px;
-        color: #9ca3af;
+        color: #a8c7d8;
         margin-bottom: 8px;
     }
 
     .stat-value {
         font-size: 24px;
         color: #ffffff;
-        font-weight: 850;
+        font-weight: 900;
         margin-bottom: 4px;
     }
 
     .stat-note {
         font-size: 13px;
-        color: #bfdbfe;
+        color: #86efac;
     }
 
     .service-grid {
@@ -160,12 +160,12 @@ st.markdown(
     }
 
     .service-card {
-        background: rgba(17, 24, 39, 0.78);
-        border: 1px solid rgba(229, 231, 235, 0.14);
+        background: rgba(15, 23, 42, 0.78);
+        border: 1px solid rgba(186, 230, 253, 0.14);
         border-radius: 24px;
         padding: 20px;
-        box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
-        min-height: 170px;
+        box-shadow: 0 16px 45px rgba(0, 0, 0, 0.26);
+        min-height: 175px;
         position: relative;
         overflow: hidden;
     }
@@ -177,17 +177,17 @@ st.markdown(
         top: 0;
         width: 100%;
         height: 4px;
-        background: linear-gradient(90deg, #e5e7eb, #60a5fa, #9ca3af);
-        opacity: 0.75;
+        background: linear-gradient(90deg, #38bdf8, #86efac, #e5e7eb);
+        opacity: 0.78;
     }
 
     .package-label {
         display: inline-block;
-        background: rgba(96, 165, 250, 0.16);
-        border: 1px solid rgba(147, 197, 253, 0.30);
-        color: #dbeafe;
+        background: rgba(56, 189, 248, 0.14);
+        border: 1px solid rgba(125, 211, 252, 0.30);
+        color: #dff6ff;
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 800;
         padding: 5px 10px;
         border-radius: 999px;
         margin-bottom: 12px;
@@ -214,16 +214,16 @@ st.markdown(
     }
 
     .promo-card {
-        background: linear-gradient(145deg, rgba(31, 41, 55, 0.9), rgba(17, 24, 39, 0.88));
-        border: 1px solid rgba(156, 163, 175, 0.18);
+        background: linear-gradient(145deg, rgba(30, 41, 59, 0.88), rgba(15, 23, 42, 0.86));
+        border: 1px solid rgba(186, 230, 253, 0.14);
         border-radius: 22px;
         padding: 18px;
-        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.23);
     }
 
     .promo-card h4 {
         font-size: 16px;
-        color: #bfdbfe;
+        color: #bae6fd;
         margin: 0 0 8px 0;
     }
 
@@ -242,8 +242,8 @@ st.markdown(
     }
 
     .workflow-card {
-        background: rgba(5, 7, 10, 0.42);
-        border: 1px solid rgba(229, 231, 235, 0.12);
+        background: rgba(8, 13, 23, 0.48);
+        border: 1px solid rgba(186, 230, 253, 0.12);
         border-radius: 22px;
         padding: 18px;
         min-height: 130px;
@@ -254,13 +254,13 @@ st.markdown(
         width: 34px;
         height: 34px;
         border-radius: 999px;
-        background: rgba(37, 99, 235, 0.24);
-        border: 1px solid rgba(96, 165, 250, 0.35);
-        color: #dbeafe;
+        background: rgba(14, 165, 233, 0.20);
+        border: 1px solid rgba(125, 211, 252, 0.35);
+        color: #e0f2fe;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 850;
+        font-weight: 900;
         margin-bottom: 12px;
     }
 
@@ -278,8 +278,8 @@ st.markdown(
     }
 
     .chat-panel {
-        background: rgba(5, 7, 10, 0.45);
-        border: 1px solid rgba(229, 231, 235, 0.12);
+        background: rgba(8, 13, 23, 0.50);
+        border: 1px solid rgba(186, 230, 253, 0.12);
         border-radius: 26px;
         padding: 18px 20px 8px 20px;
         margin-top: 12px;
@@ -287,8 +287,8 @@ st.markdown(
     }
 
     .hint-box {
-        background: rgba(17, 24, 39, 0.78);
-        border: 1px solid rgba(96, 165, 250, 0.18);
+        background: rgba(15, 23, 42, 0.78);
+        border: 1px solid rgba(125, 211, 252, 0.18);
         border-radius: 22px;
         padding: 18px;
         margin-bottom: 16px;
@@ -299,7 +299,7 @@ st.markdown(
     .footer {
         margin-top: 28px;
         padding: 18px 20px;
-        border-top: 1px solid rgba(229, 231, 235, 0.12);
+        border-top: 1px solid rgba(186, 230, 253, 0.12);
         color: #9ca3af;
         font-size: 13.5px;
         text-align: center;
@@ -310,8 +310,8 @@ st.markdown(
     }
 
     [data-testid="stChatMessage"] {
-        background: rgba(17, 24, 39, 0.82);
-        border: 1px solid rgba(229, 231, 235, 0.12);
+        background: rgba(15, 23, 42, 0.82);
+        border: 1px solid rgba(186, 230, 253, 0.12);
         border-radius: 20px;
         padding: 12px;
         margin-bottom: 14px;
@@ -319,24 +319,24 @@ st.markdown(
 
     .stButton > button {
         border-radius: 999px;
-        border: 1px solid rgba(96, 165, 250, 0.34);
-        background: rgba(37, 99, 235, 0.14);
+        border: 1px solid rgba(125, 211, 252, 0.34);
+        background: rgba(14, 165, 233, 0.14);
         color: #e5e7eb;
         padding: 0.55rem 0.9rem;
-        font-weight: 650;
+        font-weight: 700;
         transition: 0.2s ease;
     }
 
     .stButton > button:hover {
-        border-color: rgba(147, 197, 253, 0.72);
-        background: rgba(37, 99, 235, 0.25);
+        border-color: rgba(186, 230, 253, 0.72);
+        background: rgba(14, 165, 233, 0.25);
         color: #ffffff;
         transform: translateY(-1px);
     }
 
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #05070a 0%, #111827 100%);
-        border-right: 1px solid rgba(229, 231, 235, 0.1);
+        background: linear-gradient(180deg, #07111f 0%, #0f172a 100%);
+        border-right: 1px solid rgba(186, 230, 253, 0.10);
     }
 
     @media (max-width: 900px) {
@@ -367,29 +367,29 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🕒 เวลาเปิดร้าน")
     st.write("08:00–18:00 น. ทุกวัน")
-    st.markdown("### 📍 บริการเด่น")
+    st.markdown("### 💧 บริการยอดนิยม")
     st.write("ล้างรถ • ดูดฝุ่น • เคลือบสี • เคลือบกระจก")
-    st.markdown("### 🔥 โปรเด่น")
-    st.write("Student Clean, Premium Friday, Rainy Day Protection")
+    st.markdown("### 🎉 โปรเโมชั่น")
+    st.write("Student Clean • Premium Friday • Rainy Care")
     st.markdown("### 🤖 ระบบ")
     st.write("RAG Chatbot + Gemini API")
     st.markdown("---")
-    st.caption("ระบบตอบจาก knowledge base ของร้าน Car Care")
+    st.caption("Carey ตอบจาก knowledge base ของร้าน Car Care")
 
 
 st.markdown(
     """
     <div class="hero-card">
-        <div class="eyebrow">Premium Auto Care Assistant</div>
+        <div class="eyebrow">Clean Car, Easy Price</div>
         <div class="hero-title">🚗 Carey ผู้ช่วย AI ของ Car Care</div>
         <div class="hero-subtitle">
-            ผู้ช่วยตอบคำถามลูกค้าเรื่องแพ็กเกจล้างรถ ราคา บริการเสริม เวลาเปิดร้าน
-            การจองคิว และโปรโมชันของร้าน Car Care ด้วยข้อมูลจาก knowledge base
+            ผู้ช่วยตอบคำถามเรื่องราคา แพ็กเกจ โปรโมชัน และการจองคิว
+            สำหรับร้านล้างรถที่ดูสะอาด เป็นกันเอง และเริ่มต้นในราคาที่เข้าถึงได้
         </div>
         <div class="badge-row">
+            <span class="badge">Friendly Service</span>
+            <span class="badge">Easy Price</span>
             <span class="badge">RAG Chatbot</span>
-            <span class="badge">Car Wash Service</span>
-            <span class="badge">Gemini API</span>
             <span class="badge">Demo Day Ready</span>
         </div>
     </div>
@@ -407,7 +407,7 @@ st.markdown(
             <div class="stat-note">08:00–18:00 น.</div>
         </div>
         <div class="stat-card">
-            <div class="stat-label">ราคาเริ่มต้น</div>
+            <div class="stat-label">เริ่มต้นสบายกระเป๋า</div>
             <div class="stat-value">60฿</div>
             <div class="stat-note">ล้างมอเตอร์ไซค์</div>
         </div>
@@ -417,7 +417,7 @@ st.markdown(
             <div class="stat-note">ขึ้นอยู่กับประเภทรถ</div>
         </div>
         <div class="stat-card">
-            <div class="stat-label">โปรเด่น</div>
+            <div class="stat-label">โปรสำหรับนักศึกษา</div>
             <div class="stat-value">10%</div>
             <div class="stat-note">Student Clean</div>
         </div>
@@ -433,19 +433,19 @@ st.markdown(
     """
     <div class="service-grid">
         <div class="service-card">
-            <span class="package-label">Daily Care</span>
-            <h3>🧼 Pearl White Basic Wash</h3>
+            <span class="package-label">เริ่มต้นง่าย</span>
+            <h3>🧼 Basic Wash</h3>
             <p>ล้างภายนอก เช็ดแห้ง และทำความสะอาดล้อ เหมาะกับการดูแลรถประจำวันแบบรวดเร็ว</p>
         </div>
         <div class="service-card">
-            <span class="package-label">Popular</span>
-            <h3>🩶 Graphite Interior Clean</h3>
+            <span class="package-label">ยอดนิยม</span>
+            <h3>✨ Interior Clean</h3>
             <p>ดูดฝุ่น เช็ดคอนโซล เช็ดเบาะ และทำความสะอาดภายใน เหมาะกับรถที่ใช้งานทุกวัน</p>
         </div>
         <div class="service-card">
-            <span class="package-label">Recommended</span>
-            <h3>🖤 Midnight Premium Shine</h3>
-            <p>ล้างรถ ดูดฝุ่นภายใน และเคลือบเงาสีรถ ให้รถดูสะอาด เงางาม และน่าใช้งานขึ้น</p>
+            <span class="package-label">แนะนำ</span>
+            <h3>💙 Premium Shine</h3>
+            <p>ล้างรถ ดูดฝุ่นภายใน และเคลือบเงาสีรถ ให้รถดูสะอาด เงา และน่าใช้งานขึ้น</p>
         </div>
     </div>
     """,
@@ -463,8 +463,8 @@ st.markdown(
             <p>นักศึกษาลด 10% เมื่อแสดงบัตรนักศึกษา</p>
         </div>
         <div class="promo-card">
-            <h4>🌧 Rainy Day Protection</h4>
-            <p>แพ็กเกจหน้าฝน ลดเหลือ 499 บาท</p>
+            <h4>🌧 Rainy Care</h4>
+            <p>แพ็กเกจหน้าฝน Rain Protection ลดเหลือ 499 บาท</p>
         </div>
         <div class="promo-card">
             <h4>✨ Premium Friday</h4>
@@ -492,18 +492,18 @@ st.markdown(
         </div>
         <div class="workflow-card">
             <div class="workflow-step">2</div>
-            <h4>ค้น Knowledge Base</h4>
-            <p>ระบบค้นหาข้อมูลร้าน Car Care ที่เกี่ยวข้องกับคำถาม</p>
+            <h4>ค้นข้อมูลร้าน</h4>
+            <p>ระบบค้นหาข้อมูล Car Care ที่เกี่ยวข้องจาก knowledge base</p>
         </div>
         <div class="workflow-card">
             <div class="workflow-step">3</div>
-            <h4>ส่งให้ Gemini</h4>
-            <p>นำข้อมูลที่ค้นเจอไปสร้างคำตอบภาษาไทยที่เข้าใจง่าย</p>
+            <h4>สร้างคำตอบ</h4>
+            <p>Gemini ช่วยเรียบเรียงคำตอบภาษาไทยให้เข้าใจง่ายและเป็นกันเอง</p>
         </div>
         <div class="workflow-card">
             <div class="workflow-step">4</div>
             <h4>ตอบกลับทันที</h4>
-            <p>Carey ตอบเหมือนพนักงานหน้าร้าน โดยอ้างอิงจากข้อมูลร้าน</p>
+            <p>Carey ตอบเหมือนผู้ช่วยหน้าร้าน โดยอ้างอิงจากข้อมูลจริงของร้าน</p>
         </div>
     </div>
     """,
@@ -538,7 +538,7 @@ st.markdown(
     """
     <div class="hint-box">
         💡 Carey จะตอบจากข้อมูลร้าน Car Care เท่านั้น หากไม่มีข้อมูลใน knowledge base
-        ระบบจะตอบว่าไม่ทราบจากข้อมูลร้านที่มีอยู่ เพื่อลดการแต่งข้อมูลเอง
+        ระบบจะตอบว่า <strong>ไม่ทราบจากข้อมูลร้านที่มีอยู่</strong> เพื่อลดการแต่งข้อมูลเอง
     </div>
     """,
     unsafe_allow_html=True,
@@ -549,7 +549,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = [
         {
             "role": "assistant",
-            "content": "สวัสดีค่ะ ฉันคือ Carey ผู้ช่วย AI ของร้าน Car Care ถามเรื่องแพ็กเกจ ราคา โปรโมชัน หรือการจองคิวได้เลยค่ะ",
+            "content": "สวัสดีค่ะ ฉันคือ Carey ผู้ช่วย AI ของร้าน Car Care ถามเรื่องราคา แพ็กเกจ โปรโมชัน หรือการจองคิวได้เลยค่ะ",
         }
     ]
 
@@ -567,7 +567,7 @@ def generate_answer(prompt: str) -> str:
 สไตล์การตอบ:
 - ตอบเป็นภาษาไทย
 - สุภาพ เป็นกันเอง เหมือนพนักงานหน้าร้าน
-- ตอบให้ชัดเจน กระชับ และใช้ข้อมูลจากร้าน
+- ตอบให้ชัดเจน กระชับ และเข้าใจง่าย
 - ถ้าเป็นเรื่องราคา เวลา หรือโปรโมชั่น ให้ตอบตัวเลขให้ชัดเจน
 
 ข้อมูลร้าน:
@@ -627,7 +627,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 st.markdown(
     """
     <div class="footer">
-        <strong>Carey by Car Care</strong> · RAG Chatbot Demo · Built with Streamlit + Gemini · Demo Day Ready
+        <strong>Carey by Car Care</strong> · Clean Modern RAG Chatbot · Built with Streamlit + Gemini
     </div>
     """,
     unsafe_allow_html=True,
