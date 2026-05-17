@@ -1,4 +1,4 @@
-name: Matey Morning Report
+name: Carey Morning Report
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
       - name: Restore service account file
         run: echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_B64 }}" | base64 -d > service-account.json
 
-      - name: Run Matey morning report
+      - name: Run Carey morning report
         env:
           GOOGLE_SHEETS_ID: ${{ secrets.GOOGLE_SHEETS_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
