@@ -28,6 +28,7 @@ def connect_sheet():
 
     return worksheet
 
+
 def send_telegram_message(message: str):
     load_dotenv()
 
@@ -53,39 +54,40 @@ def send_telegram_message(message: str):
         print("ส่ง Telegram ไม่สำเร็จ")
         print(response.text)
 
+
 def create_report():
     worksheet = connect_sheet()
     records = worksheet.get_all_records()
 
     if not records:
-        return "ยังไม่มีข้อมูลยอดขายใน Google Sheet"
+        return "ยังไม่มีข้อมูลยอดขายบริการใน Google Sheet"
 
     total_sales = 0
     total_quantity = 0
-    menu_counter = {}
+    service_counter = {}
 
     for row in records:
-        menu = row["menu"]
+        service = row["menu"]
         quantity = int(row["quantity"])
         total = float(row["total"])
 
         total_sales += total
         total_quantity += quantity
 
-        if menu not in menu_counter:
-            menu_counter[menu] = 0
-        menu_counter[menu] += quantity
+        if service not in service_counter:
+            service_counter[service] = 0
+        service_counter[service] += quantity
 
-    best_seller = max(menu_counter, key=menu_counter.get)
+    best_service = max(service_counter, key=service_counter.get)
 
     report = f"""
-🥛 Milk Mate Morning Report by Matey
+🚗 Car Care Morning Report by Carey
 
 ยอดขายรวมทั้งหมด: {total_sales:.2f} บาท
-จำนวนสินค้าที่ขายได้: {total_quantity} แก้ว
-เมนูขายดี: {best_seller} ({menu_counter[best_seller]} แก้ว)
+จำนวนบริการที่ขายได้: {total_quantity} รายการ
+บริการขายดี: {best_service} ({service_counter[best_service]} รายการ)
 
-สรุปโดย Matey: วันนี้ยอดขายถูกบันทึกเรียบร้อยแล้ว พร้อมใช้วิเคราะห์ต่อได้เลย
+สรุปโดย Carey: วันนี้ยอดขายบริการของร้าน Car Care ถูกบันทึกเรียบร้อยแล้ว พร้อมใช้วิเคราะห์และวางแผนโปรโมชันต่อได้เลย
 """.strip()
 
     return report
@@ -99,6 +101,7 @@ def main():
     except Exception as error:
         print("เกิดข้อผิดพลาด:")
         print(error)
+
 
 if __name__ == "__main__":
     main()
