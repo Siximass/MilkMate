@@ -30,7 +30,7 @@ def connect_sheet():
     return worksheet
 
 
-def log_sale(menu: str, quantity: int, price: float):
+def log_sale(service: str, quantity: int, price: float):
     worksheet = connect_sheet()
 
     total = quantity * price
@@ -38,7 +38,7 @@ def log_sale(menu: str, quantity: int, price: float):
 
     row = [
         now,
-        menu,
+        service,
         quantity,
         price,
         total,
@@ -46,8 +46,8 @@ def log_sale(menu: str, quantity: int, price: float):
 
     worksheet.append_row(row)
 
-    print("บันทึกยอดขายสำเร็จ")
-    print(f"เมนู: {menu}")
+    print("บันทึกยอดขายบริการสำเร็จ")
+    print(f"บริการ: {service}")
     print(f"จำนวน: {quantity}")
     print(f"ราคา: {price}")
     print(f"รวม: {total}")
@@ -56,14 +56,15 @@ def log_sale(menu: str, quantity: int, price: float):
 def main():
     if len(sys.argv) < 4:
         print("วิธีใช้:")
-        print('python sales_logger.py "โกโก้ภูเขาไฟ" 2 50')
+        print('python sales_logger.py "ล้างรถเก๋ง" 2 120')
+        print('python sales_logger.py "แพ็กเกจ Premium Shine" 1 450')
         return
 
-    menu = sys.argv[1]
+    service = sys.argv[1]
     quantity = int(sys.argv[2])
     price = float(sys.argv[3])
 
-    log_sale(menu, quantity, price)
+    log_sale(service, quantity, price)
 
 
 if __name__ == "__main__":
