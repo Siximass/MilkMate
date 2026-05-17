@@ -91,7 +91,7 @@ st.markdown(
     .hero-subtitle {
         font-size: 17px;
         color: #d1d5db;
-        max-width: 760px;
+        max-width: 780px;
         line-height: 1.75;
         margin-bottom: 22px;
     }
@@ -116,7 +116,40 @@ st.markdown(
         font-size: 22px;
         font-weight: 800;
         color: #ffffff;
-        margin: 24px 0 14px 0;
+        margin: 26px 0 14px 0;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 8px;
+    }
+
+    .stat-card {
+        background: linear-gradient(145deg, rgba(31, 41, 55, 0.92), rgba(17, 24, 39, 0.86));
+        border: 1px solid rgba(229, 231, 235, 0.14);
+        border-radius: 22px;
+        padding: 18px;
+        box-shadow: 0 14px 38px rgba(0, 0, 0, 0.26);
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: #9ca3af;
+        margin-bottom: 8px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        color: #ffffff;
+        font-weight: 850;
+        margin-bottom: 4px;
+    }
+
+    .stat-note {
+        font-size: 13px;
+        color: #bfdbfe;
     }
 
     .service-grid {
@@ -132,7 +165,32 @@ st.markdown(
         border-radius: 24px;
         padding: 20px;
         box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
-        min-height: 150px;
+        min-height: 170px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .service-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #e5e7eb, #60a5fa, #9ca3af);
+        opacity: 0.75;
+    }
+
+    .package-label {
+        display: inline-block;
+        background: rgba(96, 165, 250, 0.16);
+        border: 1px solid rgba(147, 197, 253, 0.30);
+        color: #dbeafe;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 10px;
+        border-radius: 999px;
+        margin-bottom: 12px;
     }
 
     .service-card h3 {
@@ -176,6 +234,49 @@ st.markdown(
         margin: 0;
     }
 
+    .workflow-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+    .workflow-card {
+        background: rgba(5, 7, 10, 0.42);
+        border: 1px solid rgba(229, 231, 235, 0.12);
+        border-radius: 22px;
+        padding: 18px;
+        min-height: 130px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+    }
+
+    .workflow-step {
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        background: rgba(37, 99, 235, 0.24);
+        border: 1px solid rgba(96, 165, 250, 0.35);
+        color: #dbeafe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 850;
+        margin-bottom: 12px;
+    }
+
+    .workflow-card h4 {
+        font-size: 15.5px;
+        color: #ffffff;
+        margin: 0 0 7px 0;
+    }
+
+    .workflow-card p {
+        font-size: 13.5px;
+        color: #d1d5db;
+        line-height: 1.55;
+        margin: 0;
+    }
+
     .chat-panel {
         background: rgba(5, 7, 10, 0.45);
         border: 1px solid rgba(229, 231, 235, 0.12);
@@ -193,6 +294,19 @@ st.markdown(
         margin-bottom: 16px;
         color: #d1d5db;
         line-height: 1.65;
+    }
+
+    .footer {
+        margin-top: 28px;
+        padding: 18px 20px;
+        border-top: 1px solid rgba(229, 231, 235, 0.12);
+        color: #9ca3af;
+        font-size: 13.5px;
+        text-align: center;
+    }
+
+    .footer strong {
+        color: #e5e7eb;
     }
 
     [data-testid="stChatMessage"] {
@@ -234,8 +348,10 @@ st.markdown(
             padding: 26px;
         }
 
+        .stats-grid,
         .service-grid,
-        .promo-grid {
+        .promo-grid,
+        .workflow-grid {
             grid-template-columns: 1fr;
         }
     }
@@ -255,6 +371,8 @@ with st.sidebar:
     st.write("ล้างรถ • ดูดฝุ่น • เคลือบสี • เคลือบกระจก")
     st.markdown("### 🔥 โปรเด่น")
     st.write("Student Clean, Premium Friday, Rainy Day Protection")
+    st.markdown("### 🤖 ระบบ")
+    st.write("RAG Chatbot + Gemini API")
     st.markdown("---")
     st.caption("ระบบตอบจาก knowledge base ของร้าน Car Care")
 
@@ -280,20 +398,52 @@ st.markdown(
 )
 
 
+st.markdown(
+    """
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">เปิดบริการ</div>
+            <div class="stat-value">ทุกวัน</div>
+            <div class="stat-note">08:00–18:00 น.</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">ราคาเริ่มต้น</div>
+            <div class="stat-value">60฿</div>
+            <div class="stat-note">ล้างมอเตอร์ไซค์</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">ใช้เวลาเร็วสุด</div>
+            <div class="stat-value">15 นาที</div>
+            <div class="stat-note">ขึ้นอยู่กับประเภทรถ</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">โปรเด่น</div>
+            <div class="stat-value">10%</div>
+            <div class="stat-note">Student Clean</div>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+
 st.markdown('<div class="section-title">แพ็กเกจแนะนำ</div>', unsafe_allow_html=True)
 
 st.markdown(
     """
     <div class="service-grid">
         <div class="service-card">
+            <span class="package-label">Daily Care</span>
             <h3>🧼 Pearl White Basic Wash</h3>
             <p>ล้างภายนอก เช็ดแห้ง และทำความสะอาดล้อ เหมาะกับการดูแลรถประจำวันแบบรวดเร็ว</p>
         </div>
         <div class="service-card">
+            <span class="package-label">Popular</span>
             <h3>🩶 Graphite Interior Clean</h3>
             <p>ดูดฝุ่น เช็ดคอนโซล เช็ดเบาะ และทำความสะอาดภายใน เหมาะกับรถที่ใช้งานทุกวัน</p>
         </div>
         <div class="service-card">
+            <span class="package-label">Recommended</span>
             <h3>🖤 Midnight Premium Shine</h3>
             <p>ล้างรถ ดูดฝุ่นภายใน และเคลือบเงาสีรถ ให้รถดูสะอาด เงางาม และน่าใช้งานขึ้น</p>
         </div>
@@ -323,6 +473,37 @@ st.markdown(
         <div class="promo-card">
             <h4>🚘 Couple Wash</h4>
             <p>ล้างรถ 2 คันในบิลเดียว ลดทันที 30 บาท</p>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+
+st.markdown('<div class="section-title">Carey ทำงานยังไง</div>', unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <div class="workflow-grid">
+        <div class="workflow-card">
+            <div class="workflow-step">1</div>
+            <h4>ลูกค้าถาม</h4>
+            <p>พิมพ์คำถามเกี่ยวกับราคา แพ็กเกจ โปรโมชัน หรือการจองคิว</p>
+        </div>
+        <div class="workflow-card">
+            <div class="workflow-step">2</div>
+            <h4>ค้น Knowledge Base</h4>
+            <p>ระบบค้นหาข้อมูลร้าน Car Care ที่เกี่ยวข้องกับคำถาม</p>
+        </div>
+        <div class="workflow-card">
+            <div class="workflow-step">3</div>
+            <h4>ส่งให้ Gemini</h4>
+            <p>นำข้อมูลที่ค้นเจอไปสร้างคำตอบภาษาไทยที่เข้าใจง่าย</p>
+        </div>
+        <div class="workflow-card">
+            <div class="workflow-step">4</div>
+            <h4>ตอบกลับทันที</h4>
+            <p>Carey ตอบเหมือนพนักงานหน้าร้าน โดยอ้างอิงจากข้อมูลร้าน</p>
         </div>
     </div>
     """,
@@ -441,3 +622,13 @@ if prompt:
         st.write(answer)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
+
+st.markdown(
+    """
+    <div class="footer">
+        <strong>Carey by Car Care</strong> · RAG Chatbot Demo · Built with Streamlit + Gemini · Demo Day Ready
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
