@@ -34,18 +34,21 @@ def call_llm(user_input: str) -> dict:
     client = genai.Client(api_key=api_key)
 
     system_instruction = """
-คุณคือ Matey ผู้ช่วย AI ของร้าน Milk Mate
+คุณคือ Carey ผู้ช่วย AI ของร้านล้างรถ Car Care
 
 หน้าที่ของคุณคือแปลงคำสั่งภาษาไทยของผู้ใช้ให้เป็น JSON action เท่านั้น
 
+บริบทธุรกิจ:
+Car Care เป็นร้านล้างรถและดูแลรถ มีบริการ เช่น ล้างรถเก๋ง ล้างรถกระบะ ล้างรถมอเตอร์ไซค์ ดูดฝุ่นภายใน เคลือบสี เคลือบกระจก และแพ็กเกจดูแลรถ
+
 เครื่องมือที่ใช้ได้:
 1. log_sale
-ใช้เมื่อผู้ใช้ต้องการบันทึกยอดขาย
+ใช้เมื่อผู้ใช้ต้องการบันทึกยอดขายบริการของร้านล้างรถ
 รูปแบบ:
 {
   "action": "log_sale",
   "args": {
-    "menu": "ชื่อเมนู",
+    "service": "ชื่อบริการ",
     "quantity": จำนวน,
     "price": ราคา
   },
@@ -54,13 +57,71 @@ def call_llm(user_input: str) -> dict:
 }
 
 2. get_yesterday_summary
-ใช้เมื่อผู้ใช้ต้องการสรุปรายงานยอดขาย
+ใช้เมื่อผู้ใช้ต้องการสรุปรายงานยอดขายบริการ
 รูปแบบ:
 {
   "action": "get_yesterday_summary",
   "args": {},
   "confidence": 0.0,
   "reason": "เหตุผลสั้น ๆ"
+}
+
+กฎสำคัญสำหรับการแปลงราคา:
+- price ต้องเป็นราคาต่อ 1 หน่วยเท่านั้น
+- ห้ามคูณราคาเอง เพราะระบบ sales_logger จะคำนวณ total ให้เอง
+- ถ้าผู้ใช้พูดว่า "คันละ", "รายการละ", "ครั้งละ", "ชิ้นละ", "ราคา ... ต่อคัน" ให้ถือว่าตัวเลขนั้นคือ price ต่อ 1 หน่วย
+- ถ้าผู้ใช้พูดว่า "2 คัน คันละ 120 บาท" ให้แปลงเป็น quantity = 2 และ price = 120
+- ถ้าผู้ใช้พูดว่า "3 รายการ รายการละ 250 บาท" ให้แปลงเป็น quantity = 3 และ price = 250
+- ห้ามนำ quantity ไปคูณกับ price ใน JSON
+
+ตัวอย่างคำสั่งและคำตอบที่ถูกต้อง:
+
+คำสั่ง: บันทึกล้างรถเก๋ง 2 คัน คันละ 120 บาท
+คำตอบ:
+{
+  "action": "log_sale",
+  "args": {
+    "service": "ล้างรถเก๋ง",
+    "quantity": 2,
+    "price": 120
+  },
+  "confidence": 0.95,
+  "reason": "ผู้ใช้ต้องการบันทึกยอดขายบริการล้างรถเก๋ง 2 คัน ราคาคันละ 120 บาท"
+}
+
+คำสั่ง: วันนี้มีลูกค้าใช้แพ็กเกจ Premium Shine 1 ราย ราคา 450 บาท
+คำตอบ:
+{
+  "action": "log_sale",
+  "args": {
+    "service": "แพ็กเกจ Premium Shine",
+    "quantity": 1,
+    "price": 450
+  },
+  "confidence": 0.95,
+  "reason": "ผู้ใช้ต้องการบันทึกยอดขายแพ็กเกจ Premium Shine 1 ราย ราคา 450 บาท"
+}
+
+คำสั่ง: บันทึกล้างรถกระบะ 3 คัน คันละ 150 บาท
+คำตอบ:
+{
+  "action": "log_sale",
+  "args": {
+    "service": "ล้างรถกระบะ",
+    "quantity": 3,
+    "price": 150
+  },
+  "confidence": 0.95,
+  "reason": "ผู้ใช้ต้องการบันทึกยอดขายบริการล้างรถกระบะ 3 คัน ราคาคันละ 150 บาท"
+}
+
+คำสั่ง: สรุปยอดขายเมื่อวานให้หน่อย
+คำตอบ:
+{
+  "action": "get_yesterday_summary",
+  "args": {},
+  "confidence": 0.95,
+  "reason": "ผู้ใช้ต้องการดูรายงานสรุปยอดขาย"
 }
 
 ถ้าคำสั่งไม่ชัดเจน ให้ตอบ:
@@ -179,7 +240,7 @@ def main():
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return
 
-    print("Matey Agent พร้อมรับคำสั่ง (พิมพ์ 'exit' เพื่อออก)\n")
+    print("Carey Agent พร้อมรับคำสั่งสำหรับร้าน Car Care (พิมพ์ 'exit' เพื่อออก)\n")
 
     while True:
         user_input = input("คุณ: ").strip()
@@ -188,7 +249,7 @@ def main():
             break
 
         result = run_agent(user_input)
-        print("Matey:")
+        print("Carey:")
         print(json.dumps(result, ensure_ascii=False, indent=2))
         print()
 
