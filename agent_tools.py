@@ -2,9 +2,9 @@ import sales_logger
 import morning_report
 
 
-def _validate_sale(menu, quantity, price):
-    if not menu:
-        return "menu is required"
+def _validate_sale(service, quantity, price):
+    if not service:
+        return "service is required"
     if quantity <= 0:
         return "quantity must be greater than 0"
     if price < 0:
@@ -14,8 +14,8 @@ def _validate_sale(menu, quantity, price):
     return None
 
 
-def log_sale(menu, quantity, price):
-    err = _validate_sale(menu, quantity, price)
+def log_sale(service, quantity, price):
+    err = _validate_sale(service, quantity, price)
 
     if err:
         return {
@@ -24,13 +24,13 @@ def log_sale(menu, quantity, price):
             "error": err,
         }
 
-    sales_logger.log_sale(menu, quantity, price)
+    sales_logger.log_sale(service, quantity, price)
 
     return {
         "ok": True,
         "tool": "log_sale",
-        "message": "sale logged successfully",
-        "menu": menu,
+        "message": "car care service sale logged successfully",
+        "service": service,
         "quantity": quantity,
         "price": price,
         "total": quantity * price,
@@ -50,9 +50,9 @@ def get_yesterday_summary():
 TOOL_REGISTRY = {
     "log_sale": {
         "fn": log_sale,
-        "args": ("menu", "quantity", "price"),
+        "args": ("service", "quantity", "price"),
         "coerce": {
-            "menu": str,
+            "service": str,
             "quantity": int,
             "price": float,
         },
